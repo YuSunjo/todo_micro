@@ -10,7 +10,6 @@ async function bootstrap() {
       options: {
         host: 'localhost',
         port: 3001,
-
       },
     },
   );

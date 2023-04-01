@@ -12,6 +12,11 @@ export class AppController {
     return this.appService.getHello();
   }
 
+  @Get('/ping')
+  getPong(): string {
+    return 'pong';
+  }
+
   @MessagePattern({ cmd: 'login' })
   login(data) {
     return this.appService.login(data);
