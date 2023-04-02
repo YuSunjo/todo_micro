@@ -1,4 +1,11 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Inject,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateUserRequest } from '../common/user/dto/create.user.request';
 import { BusinessException } from '../exception/business.exception';
@@ -19,6 +26,7 @@ export class UserController {
   }
 
   @Post('api/v1/signup')
+  @UsePipes(new ValidationPipe())
   async signup(@Body() createUserRequest: CreateUserRequest) {
     console.log('aaa', createUserRequest);
     try {
