@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { ClientsModule } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
-import { typeormConfig } from '../config/typeorm.config';
+import { typeormConfig } from './config/typeorm.config';
 
 @Module({
   imports: [

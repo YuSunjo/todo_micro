@@ -8,8 +8,8 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @MessagePattern({ cmd: 'login' })
-  login() {
-    return this.userService.login();
+  async login(data) {
+    return ApiResponse.success(await this.userService.login(data));
   }
 
   @MessagePattern({ cmd: 'signup' })

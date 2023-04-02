@@ -9,6 +9,7 @@ import {
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateUserRequest } from '../common/user/dto/create.user.request';
 import { BusinessException } from '../exception/business.exception';
+import { LoginUserRequest } from '../common/user/dto/login.user.request';
 
 @Controller()
 export class UserController {
@@ -18,11 +19,9 @@ export class UserController {
   ) {}
 
   @Post('api/v1/login')
-  login() {
-    return this.clientAuthService.send(
-      { cmd: 'login' },
-      { email: '', password: '' },
-    );
+  @UsePipes(new ValidationPipe())
+  async login(@Body() request: LoginUserRequest) {
+    return this.clientAuthService.send({ cmd: 'login' }, request);
   }
 
   @Post('api/v1/signup')

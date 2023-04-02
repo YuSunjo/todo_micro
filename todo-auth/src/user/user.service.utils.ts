@@ -8,4 +8,12 @@ export class UserServiceUtils {
       throw new RpcException('이미 존재하는 이메일입니다.');
     }
   }
+
+  static async findUserByEmail(userRepository: UserRepository, email) {
+    const user = await userRepository.findOneBy({ email });
+    if (user == null) {
+      throw new RpcException('존재하지 않는 이메일입니다.');
+    }
+    return user;
+  }
 }
