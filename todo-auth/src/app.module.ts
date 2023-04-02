@@ -19,13 +19,7 @@ import { APP_FILTER } from '@nestjs/core';
     UserModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: APP_FILTER,
-      useClass: HttpExceptionFilter,
-    },
-  ],
+  providers: [AppService],
   exports: [],
 })
 export class AppModule {}

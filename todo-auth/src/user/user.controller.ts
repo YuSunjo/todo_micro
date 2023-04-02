@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, HttpException } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { UserService } from './user.service';
 import { ApiResponse } from '../api.response';
@@ -13,8 +13,8 @@ export class UserController {
   }
 
   @MessagePattern({ cmd: 'signup' })
-  signup(data) {
-    console.log('data', data);
-    return ApiResponse.success(this.userService.signup(data));
+  async signup(data) {
+    await this.userService.signup(data);
+    return ApiResponse.ok();
   }
 }

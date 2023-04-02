@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { UserController } from './user/user.controller';
 import { BoardController } from './board/board.controller';
+import { APP_FILTER } from '@nestjs/core';
+import { ExceptionFilter } from './exception/rpc.exception.filter';
 
 @Module({
   imports: [
@@ -27,6 +29,12 @@ import { BoardController } from './board/board.controller';
     ]),
   ],
   controllers: [AppController, UserController, BoardController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: ExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}

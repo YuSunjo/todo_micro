@@ -1,6 +1,7 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateUserRequest } from '../common/user/dto/create.user.request';
+import { BusinessException } from '../exception/business.exception';
 
 @Controller()
 export class UserController {
@@ -18,8 +19,16 @@ export class UserController {
   }
 
   @Post('api/v1/signup')
-  signup(@Body() createUserRequest: CreateUserRequest) {
+  async signup(@Body() createUserRequest: CreateUserRequest) {
     console.log('aaa', createUserRequest);
-    return this.clientAuthService.send({ cmd: 'signup' }, createUserRequest);
+    try {
+      return await this.clientAuthService.send(
+        { cmd: 'signup' },
+        createUserRequest,
+      );
+    } catch (error) {
+      console.log('error', error);
+      throw new BusinessException(error.message, error.status);
+    }
   }
 }

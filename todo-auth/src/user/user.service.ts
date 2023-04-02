@@ -24,6 +24,5 @@ export class UserService {
     await this.userRepository.save(
       User.newUser(data.email, encodedPassword, data.name),
     );
-    return `Hello ${data.email}`;
   }
 }

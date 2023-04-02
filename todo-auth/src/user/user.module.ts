@@ -4,6 +4,8 @@ import { UserService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entity/user.entity';
 import { ClientsModule } from '@nestjs/microservices';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpExceptionFilter } from '../exception/http.exception.filter';
 
 @Module({
   imports: [
@@ -16,6 +18,12 @@ import { ClientsModule } from '@nestjs/microservices';
   ],
   exports: [TypeOrmModule],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [
+    UserService,
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
+  ],
 })
 export class UserModule {}
