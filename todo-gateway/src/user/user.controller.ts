@@ -1,5 +1,6 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { CreateUserRequest } from '../common/user/dto/create.user.request';
 
 @Controller()
 export class UserController {
@@ -8,11 +9,17 @@ export class UserController {
     private readonly clientAuthService: ClientProxy,
   ) {}
 
-  @Get('api/v1/login')
+  @Post('api/v1/login')
   login() {
     return this.clientAuthService.send(
       { cmd: 'login' },
       { email: '', password: '' },
     );
+  }
+
+  @Post('api/v1/signup')
+  signup(@Body() createUserRequest: CreateUserRequest) {
+    console.log('aaa', createUserRequest);
+    return this.clientAuthService.send({ cmd: 'signup' }, createUserRequest);
   }
 }

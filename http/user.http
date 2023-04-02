@@ -1,2 +1,16 @@
-GET 127.0.0.1:3000/api/v1/login
+### signup
+POST 127.0.0.1:3000/api/v1/signup
+Content-Type: application/json
+
+{
+  "email": "tnswh2023@naver.com",
+  "password": "1234",
+  "name": "good"
+}
+
+### login
+POST 127.0.0.1:3000/api/v1/login
+
+### ping
+
 
