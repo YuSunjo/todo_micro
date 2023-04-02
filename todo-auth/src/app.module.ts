@@ -5,8 +5,6 @@ import { ClientsModule } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { typeormConfig } from '../config/typeorm.config';
-import { HttpExceptionFilter } from './exception/http.exception.filter';
-import { APP_FILTER } from '@nestjs/core';
 
 @Module({
   imports: [

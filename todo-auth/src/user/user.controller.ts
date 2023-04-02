@@ -1,4 +1,4 @@
-import { Controller, HttpException } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { UserService } from './user.service';
 import { ApiResponse } from '../api.response';
