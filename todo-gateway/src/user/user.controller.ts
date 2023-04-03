@@ -1,6 +1,8 @@
 import {
   Body,
   Controller,
+  Get,
+  Headers,
   Inject,
   Post,
   UsePipes,
@@ -37,5 +39,11 @@ export class UserController {
       console.log('error', error);
       throw new BusinessException(error.message, error.status);
     }
+  }
+
+  @Get('api/v1/user')
+  async getUser(@Headers() headers) {
+    console.log('headers', headers);
+    await this.clientAuthService.send({ cmd: 'getUser' }, headers);
   }
 }

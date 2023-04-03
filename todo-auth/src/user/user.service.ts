@@ -5,13 +5,14 @@ import { UserRepository } from './entity/user.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserServiceUtils } from './user.service.utils';
 import * as bcrypt from 'bcrypt';
-import { JwtConfig } from '../config/jwt.config';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
   constructor(
     @Inject('TODO_AUTH_SERVICE') private readonly client: ClientProxy,
     @InjectRepository(User) private userRepository: UserRepository,
+    private jwtService: JwtService,
   ) {}
 
   async login(data) {
@@ -19,7 +20,7 @@ export class UserService {
       this.userRepository,
       data.email,
     );
-    return JwtConfig.generateToken(user.id);
+    return await this.jwtService.signAsync({ id: user.id });
   }
 
   async signup(data) {

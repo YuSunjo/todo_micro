@@ -6,6 +6,8 @@ import { User } from './entity/user.entity';
 import { ClientsModule } from '@nestjs/microservices';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from '../exception/http.exception.filter';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from '../config/auth/constants';
 
 @Module({
   imports: [
@@ -15,6 +17,11 @@ import { HttpExceptionFilter } from '../exception/http.exception.filter';
         name: 'TODO_AUTH_SERVICE',
       },
     ]),
+    JwtModule.register({
+      global: true,
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '60s' },
+    }),
   ],
   exports: [TypeOrmModule],
   controllers: [UserController],
