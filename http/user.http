@@ -17,9 +17,14 @@ Content-Type: application/json
   "password": "1234"
 }
 
+> {%
+client.global.set('AUTH', response.body.data)
+client.log(client.global.get('AUTH'));
+ %}
+
 ### getUser
 GET http://localhost:3000/api/v1/user
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoxLCJpYXQiOjE2ODA0ODUxOTQsImV4cCI6MTY4MDU2Nzk5NH0.zLFj3o7ip0nggrgahJnwcrgZeLgL1MVh8PzVtP986Ls
+Authorization: Bearer {{AUTH}}
 
 
 

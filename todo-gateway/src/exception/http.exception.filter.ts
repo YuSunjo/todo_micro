@@ -10,7 +10,6 @@ import { Response } from 'express';
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
-    console.log('exception111', exception);
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
 
@@ -19,8 +18,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    console.log('response11', response);
-    console.log('status11', status);
     response.status(status).json({
       data: '',
       result: status,

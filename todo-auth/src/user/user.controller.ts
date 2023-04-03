@@ -17,4 +17,10 @@ export class UserController {
     await this.userService.signup(data);
     return ApiResponse.ok();
   }
+
+  @MessagePattern({ cmd: 'getUser' })
+  async getUser({ id }) {
+    await this.userService.getUser(id);
+    return ApiResponse.success(await this.userService.getUser(id));
+  }
 }

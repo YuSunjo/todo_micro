@@ -16,4 +16,12 @@ export class UserServiceUtils {
     }
     return user;
   }
+
+  static async findUserById(userRepository: UserRepository, id: number) {
+    const user = await userRepository.findOneBy({ id });
+    if (user == null) {
+      throw new RpcException('존재하지 않는 유저입니다.');
+    }
+    return user;
+  }
 }

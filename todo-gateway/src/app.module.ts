@@ -6,6 +6,8 @@ import { UserController } from './user/user.controller';
 import { BoardController } from './board/board.controller';
 import { APP_FILTER } from '@nestjs/core';
 import { ExceptionFilter } from './exception/rpc.exception.filter';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './config/auth/constants';
 
 @Module({
   imports: [
@@ -27,6 +29,11 @@ import { ExceptionFilter } from './exception/rpc.exception.filter';
         },
       },
     ]),
+    JwtModule.register({
+      global: true,
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '24h' },
+    }),
   ],
   controllers: [AppController, UserController, BoardController],
   providers: [

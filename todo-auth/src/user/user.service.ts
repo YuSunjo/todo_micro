@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserServiceUtils } from './user.service.utils';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { UserInfoResponse } from './dto/user.info.response';
 
 @Injectable()
 export class UserService {
@@ -24,11 +25,15 @@ export class UserService {
   }
 
   async signup(data) {
-    console.log('data', data);
     await UserServiceUtils.validateEmail(this.userRepository, data.email);
     const encodedPassword = await bcrypt.hash(data.password, 10);
     await this.userRepository.save(
       User.newUser(data.email, encodedPassword, data.name),
     );
+  }
+
+  async getUser(id: number) {
+    const user = await UserServiceUtils.findUserById(this.userRepository, id);
+    return UserInfoResponse.of(user);
   }
 }

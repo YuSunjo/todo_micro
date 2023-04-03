@@ -2,16 +2,18 @@ import {
   Body,
   Controller,
   Get,
-  Headers,
   Inject,
   Post,
+  UseGuards,
   UsePipes,
+  Request,
   ValidationPipe,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateUserRequest } from '../common/user/dto/create.user.request';
 import { BusinessException } from '../exception/business.exception';
 import { LoginUserRequest } from '../common/user/dto/login.user.request';
+import { AuthGuard } from './guard/auth.guard';
 
 @Controller()
 export class UserController {
@@ -42,8 +44,8 @@ export class UserController {
   }
 
   @Get('api/v1/user')
-  async getUser(@Headers() headers) {
-    console.log('headers', headers);
-    await this.clientAuthService.send({ cmd: 'getUser' }, headers);
+  @UseGuards(AuthGuard)
+  async getUser(@Request() request) {
+    return await this.clientAuthService.send({ cmd: 'getUser' }, request.user);
   }
 }
