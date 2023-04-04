@@ -6,14 +6,15 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { typeormConfig } from './config/typeorm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
+import { ClientsModule } from '@nestjs/microservices';
 
 @Module({
   imports: [
-    // ClientsModule.register([
-    //   {
-    //     name: 'TODO_AUTH_SERVICE',
-    //   },
-    // ]),
+    ClientsModule.register([
+      {
+        name: 'TODO_AUTH_SERVICE',
+      },
+    ]),
     TypeOrmModule.forRoot(typeormConfig),
     UserModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({

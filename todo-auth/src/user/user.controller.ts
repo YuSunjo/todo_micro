@@ -14,13 +14,11 @@ export class UserController {
 
   @MessagePattern({ cmd: 'signup' })
   async signup(data) {
-    await this.userService.signup(data);
-    return ApiResponse.ok();
+    return await this.userService.signup(data);
   }
 
   @MessagePattern({ cmd: 'getUser' })
   async getUser({ id }) {
-    await this.userService.getUser(id);
-    return ApiResponse.success(await this.userService.getUser(id));
+    return await this.userService.getUser(id);
   }
 }

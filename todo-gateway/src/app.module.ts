@@ -10,6 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './config/auth/constants';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { UserResolver } from './user/user.resolver';
 
 @Module({
   imports: [
@@ -38,13 +39,13 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      playground: true,
-      autoSchemaFile: 'schema.gql',
+      autoSchemaFile: true,
     }),
   ],
   controllers: [AppController, UserController, BoardController],
   providers: [
     AppService,
+    UserResolver,
     {
       provide: APP_FILTER,
       useClass: ExceptionFilter,
