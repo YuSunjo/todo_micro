@@ -8,6 +8,7 @@ import {
   UsePipes,
   Request,
   ValidationPipe,
+  Query,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateUserRequest } from '../common/user/dto/create.user.request';

@@ -1,0 +1,17 @@
+POST http://localhost:3001/graphql
+Content-Type: application/graphql
+
+mutation {
+  signup(CreateUserRequest: {
+    name: aa
+    email: aa@naver.com
+    password: aa
+  }) {
+    id,
+    name,
+    email
+  }
+}
+
+###
+GET http://localhost:3001

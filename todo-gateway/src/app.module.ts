@@ -8,6 +8,8 @@ import { APP_FILTER } from '@nestjs/core';
 import { ExceptionFilter } from './exception/rpc.exception.filter';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './config/auth/constants';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
   imports: [
@@ -33,6 +35,11 @@ import { jwtConstants } from './config/auth/constants';
       global: true,
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '24h' },
+    }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      playground: true,
+      autoSchemaFile: 'schema.gql',
     }),
   ],
   controllers: [AppController, UserController, BoardController],
