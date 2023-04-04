@@ -27,9 +27,10 @@ export class UserService {
   async signup(data) {
     await UserServiceUtils.validateEmail(this.userRepository, data.email);
     const encodedPassword = await bcrypt.hash(data.password, 10);
-    await this.userRepository.save(
+    const user = await this.userRepository.save(
       User.newUser(data.email, encodedPassword, data.name),
     );
+    return UserInfoResponse.of(user);
   }
 
   async getUser(id: number) {

@@ -8,6 +8,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from '../exception/http.exception.filter';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from '../config/auth/constants';
+import { UserResolver } from './user.resolver';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { jwtConstants } from '../config/auth/constants';
   controllers: [UserController],
   providers: [
     UserService,
+    UserResolver,
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
