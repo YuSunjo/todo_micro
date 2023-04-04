@@ -3,6 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { typeormConfig } from './config/typeorm.config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -11,8 +14,8 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     //     name: 'TODO_AUTH_SERVICE',
     //   },
     // ]),
-    // TypeOrmModule.forRoot(typeormConfig),
-    // UserModule,
+    TypeOrmModule.forRoot(typeormConfig),
+    UserModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
