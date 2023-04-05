@@ -1,7 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { UserService } from './user.service';
-import { ApiResponse } from '../api.response';
 
 @Controller()
 export class UserController {
@@ -9,7 +8,7 @@ export class UserController {
 
   @MessagePattern({ cmd: 'login' })
   async login(data) {
-    return ApiResponse.success(await this.userService.login(data));
+    return await this.userService.login(data);
   }
 
   @MessagePattern({ cmd: 'signup' })

@@ -12,6 +12,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UserResolver } from './user/user.resolver';
 import { LoggerModule } from './common/logging/logging.module';
+import { JwtStrategy } from './user/guard/jwt.strategy';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { LoggerModule } from './common/logging/logging.module';
       autoSchemaFile: true,
       context: ({ request, connection }) => {
         if (request) {
+          console.log('request', request);
           const user = request.headers.authorization;
           return { ...request, user };
         } else {
@@ -56,6 +58,7 @@ import { LoggerModule } from './common/logging/logging.module';
   providers: [
     AppService,
     UserResolver,
+    JwtStrategy,
     {
       provide: APP_FILTER,
       useClass: ExceptionFilter,

@@ -8,7 +8,6 @@ import {
   UsePipes,
   Request,
   ValidationPipe,
-  Query,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateUserRequest } from '../common/user/dto/create.user.request';
@@ -32,7 +31,6 @@ export class UserController {
   @Post('api/v1/signup')
   @UsePipes(new ValidationPipe())
   async signup(@Body() createUserRequest: CreateUserRequest) {
-    console.log('aaa', createUserRequest);
     try {
       return await this.clientAuthService.send(
         { cmd: 'signup' },
@@ -47,6 +45,6 @@ export class UserController {
   @Get('api/v1/user')
   @UseGuards(AuthGuard)
   async getUser(@Request() request) {
-    return await this.clientAuthService.send({ cmd: 'getUser' }, request.user);
+    return this.clientAuthService.send({ cmd: 'getUser' }, request.user);
   }
 }

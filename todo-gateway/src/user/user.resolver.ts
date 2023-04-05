@@ -1,9 +1,11 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { Inject } from '@nestjs/common';
+import { Inject, UseGuards } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { UserInfoResponse } from '../common/user/dto/user.info.response';
 import { CreateUserRequest } from '../common/user/dto/create.user.request';
 import { LoginUserRequest } from '../common/user/dto/login.user.request';
+import { GraphqlAuthGuard } from './guard/graphql.auth.guard';
+import { UserId } from './guard/user.id.decorator';
 
 @Resolver()
 export class UserResolver {
@@ -23,12 +25,13 @@ export class UserResolver {
   }
 
   @Mutation(() => String)
-  async login(@Args('loginUserRequest') reqeust: LoginUserRequest) {
-    return this.clientAuthService.send({ cmd: 'login' }, reqeust);
+  async login(@Args('loginUserRequest') request: LoginUserRequest) {
+    return this.clientAuthService.send({ cmd: 'login' }, request);
   }
 
   @Query(() => UserInfoResponse)
-  async getUser(@Args('id') id: number) {
+  @UseGuards(GraphqlAuthGuard)
+  async getUser(@UserId() id: number) {
     return this.clientAuthService.send({ cmd: 'getUser' }, id);
   }
 }

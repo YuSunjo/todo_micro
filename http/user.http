@@ -24,7 +24,7 @@ client.log(client.global.get('AUTH'));
 
 ### getUser
 GET http://localhost:3000/api/v1/user
-Authorization: Bearer {{AUTH}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjgwNjU5OTcwLCJleHAiOjE2ODA3NDYzNzB9.lx8bkwQniZfCCCkqH3JEbIVUpyuvY2XNOiVA4iN59jg
 
 ###
 GET http://localhost:3001
