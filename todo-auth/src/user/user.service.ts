@@ -7,13 +7,15 @@ import { UserServiceUtils } from './user.service.utils';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UserInfoResponse } from './dto/user.info.response';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class UserService {
   constructor(
     @Inject('TODO_AUTH_SERVICE') private readonly client: ClientProxy,
     @InjectRepository(User) private userRepository: UserRepository,
-    private jwtService: JwtService,
+    private readonly jwtService: JwtService,
+    private dataSource: DataSource,
   ) {}
 
   async login(data) {
@@ -25,12 +27,22 @@ export class UserService {
   }
 
   async signup(data) {
-    await UserServiceUtils.validateEmail(this.userRepository, data.email);
-    const encodedPassword = await bcrypt.hash(data.password, 10);
-    const user = await this.userRepository.save(
-      User.newUser(data.email, encodedPassword, data.name),
-    );
-    return UserInfoResponse.of(user);
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      await UserServiceUtils.validateEmail(this.userRepository, data.email);
+      const encodedPassword = await bcrypt.hash(data.password, 10);
+      const user = await queryRunner.manager
+        .getRepository(User)
+        .save(User.newUser(data.email, encodedPassword, data.name));
+      return UserInfoResponse.of(user);
+    } catch (err) {
+      console.log(err);
+      await queryRunner.rollbackTransaction();
+    } finally {
+      await queryRunner.release();
+    }
   }
 
   async getUser(id: number) {

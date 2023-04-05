@@ -7,6 +7,7 @@ import { typeormConfig } from './config/typeorm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { ClientsModule } from '@nestjs/microservices';
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
@@ -26,4 +27,6 @@ import { ClientsModule } from '@nestjs/microservices';
   providers: [AppService],
   exports: [],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private dataSource: DataSource) {}
+}
