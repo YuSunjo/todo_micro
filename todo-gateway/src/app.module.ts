@@ -11,6 +11,7 @@ import { jwtConstants } from './config/auth/constants';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UserResolver } from './user/user.resolver';
+import { LoggerModule } from './common/logging/logging.module';
 
 @Module({
   imports: [
@@ -40,7 +41,16 @@ import { UserResolver } from './user/user.resolver';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
+      context: ({ request, connection }) => {
+        if (request) {
+          const user = request.headers.authorization;
+          return { ...request, user };
+        } else {
+          return connection;
+        }
+      },
     }),
+    LoggerModule,
   ],
   controllers: [AppController, UserController, BoardController],
   providers: [

@@ -3,6 +3,7 @@ import { Inject } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { UserInfoResponse } from '../common/user/dto/user.info.response';
 import { CreateUserRequest } from '../common/user/dto/create.user.request';
+import { LoginUserRequest } from '../common/user/dto/login.user.request';
 
 @Resolver()
 export class UserResolver {
@@ -19,6 +20,11 @@ export class UserResolver {
   @Mutation(() => UserInfoResponse)
   async signup(@Args('createUserRequest') request: CreateUserRequest) {
     return this.clientAuthService.send({ cmd: 'signup' }, request);
+  }
+
+  @Mutation(() => String)
+  async login(@Args('loginUserRequest') reqeust: LoginUserRequest) {
+    return this.clientAuthService.send({ cmd: 'login' }, reqeust);
   }
 
   @Query(() => UserInfoResponse)
